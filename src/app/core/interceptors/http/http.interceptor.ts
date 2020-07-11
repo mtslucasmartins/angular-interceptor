@@ -47,13 +47,13 @@ export class GlobalHttpInterceptor implements HttpInterceptor {
 
         if (error.error instanceof Error) {
         } else {
-          if (error.status === HttpStatus.UNAUTHORIZED) {
-
-            if (this.requestMatchesRefreshTokenURL(request)) {
+           if (error.status === HttpStatus.BAD_REQUEST) {
+            if (this.requestMatchesCallbackURL(request)) {
               this.logout();
               return throwError(error);
             }
-
+           }
+          if (error.status === HttpStatus.UNAUTHORIZED) {
             if (this.requestMatchesCallbackURL(request)) {
               this.logout();
               return throwError(error);
